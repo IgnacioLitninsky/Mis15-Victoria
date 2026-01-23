@@ -14,31 +14,31 @@
             --texto-suave: #5a5a5a;
         }
 
-        /* --- FIX RADICAL DE SCROLL --- */
-        html, body {
-            margin: 0;
-            padding: 0;
+        /* --- LIMPIEZA TOTAL DE SCROLL --- */
+        html {
+            margin: 0; padding: 0;
             width: 100%;
-            height: 100%;
-            background-color: var(--color-nude);
-            font-family: 'Montserrat', sans-serif;
-            text-align: center;
-            color: var(--texto-suave);
-            /* Evitamos que el rebote del elástico rompa el scroll */
-            overscroll-behavior-y: none; 
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
-
-        html { overflow: hidden; } /* Bloqueo inicial */
 
         body {
-            overflow-x: hidden;
-            overflow-y: hidden; /* Se habilita por JS */
-            -webkit-overflow-scrolling: touch; /* Scroll fluido en iPhone */
+            margin: 0; padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--color-nude);
+            color: var(--texto-suave);
+            text-align: center;
+            width: 100%;
+            /* Bloqueo total inicial para evitar que bajen antes de entrar */
+            overflow-y: hidden; 
+            position: relative;
         }
 
-        body.habilitar-scroll {
-            overflow-y: auto;
-            height: auto;
+        /* Clase activada por JS que libera el scroll de forma única */
+        body.ready {
+            overflow-y: visible !important;
+            overflow-x: hidden !important;
+            height: auto !important;
         }
 
         /* --- PANTALLA DE INGRESO --- */
@@ -49,16 +49,14 @@
             background: white;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            z-index: 9999;
-            transition: all 0.8s ease-in-out;
-            pointer-events: auto; /* IMPORTANTE: Recibe clics iniciales */
+            z-index: 10000; /* Siempre arriba */
+            transition: opacity 0.8s ease, visibility 0.8s;
         }
 
         #pantalla-ingreso.ocultar {
             opacity: 0;
             visibility: hidden;
-            pointer-events: none; /* DESACTIVACIÓN TOTAL: Deja pasar el dedo al fondo */
-            transform: scale(1.1);
+            pointer-events: none; /* Crucial: Deja de existir para el tacto */
         }
 
         .btn-ingresar {
@@ -73,14 +71,13 @@
             display: none; 
             width: 100%;
             position: relative;
-            z-index: 1;
         }
         .main-content.visible { display: block; }
 
         header { padding: 80px 20px; background: white; }
         header h1 { font-family: 'Dancing Script', cursive; font-size: 5rem; color: var(--color-rosa-calido); margin: 10px 0; }
 
-        section { padding: 80px 20px; width: 100%; box-sizing: border-box; position: relative; }
+        section { padding: 80px 20px; width: 100%; box-sizing: border-box; }
         .bg-white { background-color: #ffffff; }
         .bg-dark { background-color: var(--negro-elegante); color: white; }
         
@@ -114,7 +111,7 @@
 
         /* MODAL */
         .modal {
-            display: none; position: fixed; z-index: 10000;
+            display: none; position: fixed; z-index: 11000;
             left: 0; top: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8); justify-content: center; align-items: center;
         }
@@ -124,8 +121,8 @@
 <body>
 
     <div id="pantalla-ingreso">
-        <h2 style="font-family: 'Playfair Display', serif; letter-spacing: 6px; font-style: italic; color: var(--color-rosa-calido);">Victoria</h2>
-        <p style="font-size: 0.7rem; letter-spacing: 3px; color: #999;">MIS QUINCE AÑOS</p>
+        <h2 style="font-family: 'Playfair Display', serif; letter-spacing: 8px; color: var(--color-rosa-calido);">Victoria</h2>
+        <p style="font-size: 0.75rem; letter-spacing: 3px;">MIS QUINCE AÑOS</p>
         <button class="btn-ingresar" onclick="entrar()">Ingresar</button>
     </div>
 
@@ -158,7 +155,7 @@
             <h3>¿Dónde?</h3>
             <p style="font-weight: 600; margin-bottom: 5px;">KEKÉ - SALÓN DE FIESTAS</p>
             <p class="sub-text">Diagonal Lechesse km 3.5 Camino 14 <br> Tafí Viejo, Tucumán</p>
-            <a href="https://maps.app.goo.gl/tu_ubicacion" target="_blank" class="btn-style">Como llegar</a>
+            <a href="https://maps.app.goo.gl/9" target="_blank" class="btn-style">Como llegar</a>
         </section>
 
         <section class="bg-white">
@@ -214,23 +211,16 @@
 
     <script>
         function entrar() {
-            // 1. Ocultar pantalla de ingreso
-            const ingreso = document.getElementById('pantalla-ingreso');
-            ingreso.classList.add('ocultar');
+            // Liberamos el scroll y activamos contenido
+            document.body.classList.add('ready');
+            document.getElementById('pantalla-ingreso').classList.add('ocultar');
+            document.getElementById('contenido').classList.add('visible');
+
+            // Reset de posición
+            window.scrollTo(0, 0);
             
-            // 2. Mostrar contenido
-            const contenido = document.getElementById('contenido');
-            contenido.classList.add('visible');
-
-            // 3. HABILITAR SCROLL ÚNICO
-            document.body.classList.add('habilitar-scroll');
-            document.documentElement.style.overflow = "auto";
-
-            // 4. Refrescar animaciones
-            setTimeout(() => {
-                window.scrollTo(0, 0);
-                refreshReveal(); 
-            }, 100);
+            // Iniciar animaciones
+            refreshReveal();
         }
 
         function abrirModal() { document.getElementById('modalRegalo').style.display = "flex"; }
@@ -261,10 +251,10 @@
                 observer.observe(section);
             });
         }
-        window.onload = refreshReveal;
     </script>
 </body>
 </html>
+
 
 
 
