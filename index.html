@@ -14,9 +14,14 @@
             --texto-suave: #5a5a5a;
         }
 
+        /* --- SOLUCIÓN DOBLE SCROLL --- */
         html {
-            overflow-x: hidden; /* Evita movimientos laterales raros */
-            height: -webkit-fill-available; /* Ajuste para móviles */
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            width: 100%;
+            /* Ajuste para altura real en móviles */
+            height: -webkit-fill-available; 
         }
 
         body {
@@ -26,12 +31,17 @@
             background-color: var(--color-nude);
             color: var(--texto-suave);
             text-align: center;
-            /* Esto elimina el segundo scrollbar */
-            overflow-y: auto; 
-            overflow-x: hidden;
             width: 100%;
             min-height: 100vh;
-         }
+            /* Bloqueamos el scroll hasta que se presione ingresar */
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+
+        /* Clase que habilita el scroll único tras el ingreso */
+        body.habilitar-scroll {
+            overflow-y: auto;
+        }
         
         /* 1. PANTALLA DE INGRESO */
         #pantalla-ingreso {
@@ -53,14 +63,14 @@
             display: none; 
             opacity: 0; 
             transition: opacity 1.5s ease;
-            width: 100%; /* Asegura que ocupe todo el ancho sin salirse */
+            width: 100%;
         }
         .visible { display: block; opacity: 1; }
 
         header { padding: 80px 20px; background: white; }
         header h1 { font-family: 'Dancing Script', cursive; font-size: 5rem; color: var(--color-rosa-calido); margin: 10px 0; }
 
-        section { padding: 60px 20px; border-bottom: 1px solid rgba(0,0,0,0.03); }
+        section { padding: 80px 20px; border-bottom: 1px solid rgba(0,0,0,0.03); width: 100%; box-sizing: border-box; }
         .bg-white { background-color: #ffffff; }
         .bg-dark { background-color: var(--negro-elegante); color: white; }
         
@@ -97,22 +107,18 @@
         
         .ocultar { transform: translateY(-100%); }
 
-        /* Estado inicial: invisible y un poco más abajo */
+        /* ANIMACIÓN REVEAL */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.8s ease-out;
         }
 
-        /* Estado final: visible y en su posición original */
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
-        
     </style>
-
-    
 </head>
 <body>
 
@@ -140,21 +146,19 @@
             </p>
         </section>
 
-
-        <section class="bg-white" style="border-top: 1px solid rgba(255,255,255,0.1);">
+        <section class="bg-white">
             <i class="far fa-calendar-alt icon-main"></i>
             <h3>¿CUÁNDO?</h3>
             <p style="font-weight: 600; letter-spacing: 2px;">07 DE MARZO 2026</p>
             <p style="letter-spacing: 1px; margin-top: 5px;">| 22:00 HS |</p>
         </section>
 
-        
         <section class="bg-dark">
             <i class="fas fa-compact-disc icon-main"></i>
             <h3>¿Dónde?</h3>
             <p style="font-weight: 600; margin-bottom: 5px;">KEKÉ - SALÓN DE FIESTAS</p>
             <p class="sub-text">Diagonal Lechesse km 3.5 Camino 14 <br> Tafí Viejo, Tucumán</p>
-            <a href="https://maps.app.goo.gl/V14VupvNHDgFNee87" target="_blank" class="btn-style">Como llegar</a>
+            <a href="https://www.google.com/maps?q=Keké+Salón+de+Fiestas+Tafí+Viejo" target="_blank" class="btn-style">Como llegar</a>
         </section>
 
         <section class="bg-white">
@@ -196,7 +200,6 @@
             <h2 style="letter-spacing: 8px; font-weight: 400; text-transform: uppercase; font-size: 1.5rem;">Te espero</h2>
             <footer style="margin-top: 40px; font-size: 0.6rem; letter-spacing: 3px; color: #ccc;">VICTORIA • 2026</footer>
         </section>
-
     </div>
 
     <div id="modalRegalo" class="modal">
@@ -211,17 +214,19 @@
         </div>
     </div>
 
-   <script>
-        // 1. Función para ingresar (Corrección de Scroll)
+    <script>
+        // 1. Función para ingresar (Corrección Scroll Único)
         function entrar() {
             document.getElementById('pantalla-ingreso').classList.add('ocultar');
             const contenido = document.getElementById('contenido');
             contenido.classList.add('visible');
+            
+            // Habilitamos scroll en el body tras el ingreso
+            document.body.classList.add('habilitar-scroll');
 
-        // Forzamos al navegador a reconocer la posición inicial
-        setTimeout(() => {
-            window.scrollTo(0, 0);
-            refreshReveal(); 
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+                refreshReveal(); 
             }, 100);
         }
 
@@ -244,7 +249,7 @@
             }
         }, 1000);
 
-        // 4. Lógica de Salto (Scroll Reveal) Optimizada
+        // 4. Lógica Reveal Optimizada
         const observerOptions = {
             threshold: 0.1,
             rootMargin: "0px 0px -50px 0px"
@@ -265,13 +270,9 @@
             });
         }
 
-        // Ejecutar preparación al cargar
         window.onload = refreshReveal;
-       
     </script>
-    
 </body>
-
 </html>
 
 
