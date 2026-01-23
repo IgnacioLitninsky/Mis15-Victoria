@@ -14,16 +14,25 @@
             --texto-suave: #5a5a5a;
         }
 
-        body, html {
-            margin: 0; padding: 0;
+        html {
+            overflow-x: hidden; /* Evita movimientos laterales raros */
+            height: -webkit-fill-available; /* Ajuste para móviles */
+        }
+
+        body {
+            margin: 0; 
+            padding: 0;
             font-family: 'Montserrat', sans-serif;
             background-color: var(--color-nude);
             color: var(--texto-suave);
             text-align: center;
+            /* Esto elimina el segundo scrollbar */
+            overflow-y: auto; 
             overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
+            width: 100%;
+            min-height: 100vh;
+         }
+        
         /* 1. PANTALLA DE INGRESO */
         #pantalla-ingreso {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -40,7 +49,12 @@
         }
 
         /* 2. CONTENIDO PRINCIPAL */
-        .main-content { display: none; opacity: 0; transition: opacity 1.5s ease; }
+        .main-content { 
+            display: none; 
+            opacity: 0; 
+            transition: opacity 1.5s ease;
+            width: 100%; /* Asegura que ocupe todo el ancho sin salirse */
+        }
         .visible { display: block; opacity: 1; }
 
         header { padding: 80px 20px; background: white; }
@@ -131,7 +145,7 @@
             <i class="far fa-calendar-alt icon-main"></i>
             <h3>¿CUÁNDO?</h3>
             <p style="font-weight: 600; letter-spacing: 2px;">07 DE MARZO 2026</p>
-            <p style="letter-spacing: 1px; margin-top: 5px;">| 21:00 HS |</p>
+            <p style="letter-spacing: 1px; margin-top: 5px;">| 22:00 HS |</p>
         </section>
 
         
@@ -259,6 +273,7 @@
 </body>
 
 </html>
+
 
 
 
