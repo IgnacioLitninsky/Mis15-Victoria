@@ -197,42 +197,69 @@
         </div>
     </div>
 
-    <script>
+   <script>
+        // 1. Función para ingresar (Corrección de Scroll)
         function entrar() {
             document.getElementById('pantalla-ingreso').classList.add('ocultar');
-            document.getElementById('contenido').classList.add('visible');
+            const contenido = document.getElementById('contenido');
+            contenido.classList.add('visible');
+
+        // Forzamos al navegador a reconocer la posición inicial
+        setTimeout(() => {
+            window.scrollTo(0, 0);
+            refreshReveal(); 
+            }, 100);
         }
+
+        // 2. Modales
         function abrirModal() { document.getElementById('modalRegalo').style.display = "flex"; }
         function cerrarModal() { document.getElementById('modalRegalo').style.display = "none"; }
-        
+        window.onclick = function(event) { 
+            if (event.target == document.getElementById('modalRegalo')) { cerrarModal(); } 
+        }
+
+        // 3. Reloj Cuenta Regresiva
         const target = new Date("March 7, 2026 21:00:00").getTime();
         setInterval(() => {
             const now = new Date().getTime();
             const d = target - now;
-            document.getElementById("d").innerHTML = Math.floor(d / (1000*60*60*24)) + "<span>Días</span>";
-            document.getElementById("h").innerHTML = Math.floor((d % (1000*60*60*24)) / (1000*60*60)) + "<span>Hs</span>";
-            document.getElementById("m").innerHTML = Math.floor((d % (1000*60*60)) / (1000*60)) + "<span>Min</span>";
+            if (d > 0) {
+                document.getElementById("d").innerHTML = Math.floor(d / (1000*60*60*24)) + "<span>Días</span>";
+                document.getElementById("h").innerHTML = Math.floor((d % (1000*60*60*24)) / (1000*60*60)) + "<span>Hs</span>";
+                document.getElementById("m").innerHTML = Math.floor((d % (1000*60*60)) / (1000*60)) + "<span>Min</span>";
+            }
         }, 1000);
 
-        // Creamos el observador para detectar el scroll
-        const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-        }
-         });
-        }, { threshold: 0.1 });
+        // 4. Lógica de Salto (Scroll Reveal) Optimizada
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
 
-        // Seleccionamos todas las secciones y las preparamos para la animación
-        document.querySelectorAll('section').forEach((section) => {
-        section.classList.add('reveal');
-        observer.observe(section);
-        });
-        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        function refreshReveal() {
+            document.querySelectorAll('section').forEach((section) => {
+                section.classList.add('reveal');
+                observer.observe(section);
+            });
+        }
+
+        // Ejecutar preparación al cargar
+        window.onload = refreshReveal;
+       
     </script>
+    
 </body>
 
 </html>
+
 
 
 
