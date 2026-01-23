@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mis 15 - Victoria</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Dancing+Script:wght@600&family=Playfair+Display:ital,wght@0,400;1,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -14,41 +14,51 @@
             --texto-suave: #5a5a5a;
         }
 
-        /* --- SOLUCIÓN DOBLE SCROLL --- */
-        html {
+        /* --- FIX RADICAL DE SCROLL --- */
+        html, body {
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
             width: 100%;
-            /* Ajuste para altura real en móviles */
-            height: -webkit-fill-available; 
+            height: 100%;
+            background-color: var(--color-nude);
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            color: var(--texto-suave);
+            /* Evitamos que el rebote del elástico rompa el scroll */
+            overscroll-behavior-y: none; 
         }
+
+        html { overflow: hidden; } /* Bloqueo inicial */
 
         body {
-            margin: 0; 
-            padding: 0;
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--color-nude);
-            color: var(--texto-suave);
-            text-align: center;
-            width: 100%;
-            min-height: 100vh;
-            /* Bloqueamos el scroll hasta que se presione ingresar */
-            overflow-y: hidden;
             overflow-x: hidden;
+            overflow-y: hidden; /* Se habilita por JS */
+            -webkit-overflow-scrolling: touch; /* Scroll fluido en iPhone */
         }
 
-        /* Clase que habilita el scroll único tras el ingreso */
         body.habilitar-scroll {
             overflow-y: auto;
+            height: auto;
         }
-        
-        /* 1. PANTALLA DE INGRESO */
+
+        /* --- PANTALLA DE INGRESO --- */
         #pantalla-ingreso {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; z-index: 9999;
-            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            position: fixed;
+            top: 0; left: 0; 
+            width: 100%; height: 100%;
+            background: white;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 9999;
+            transition: all 0.8s ease-in-out;
+            pointer-events: auto; /* IMPORTANTE: Recibe clics iniciales */
+        }
+
+        #pantalla-ingreso.ocultar {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; /* DESACTIVACIÓN TOTAL: Deja pasar el dedo al fondo */
+            transform: scale(1.1);
         }
 
         .btn-ingresar {
@@ -58,44 +68,49 @@
             margin-top: 30px;
         }
 
-        /* 2. CONTENIDO PRINCIPAL */
+        /* --- CONTENIDO --- */
         .main-content { 
             display: none; 
-            opacity: 0; 
-            transition: opacity 1.5s ease;
             width: 100%;
+            position: relative;
+            z-index: 1;
         }
-        .visible { display: block; opacity: 1; }
+        .main-content.visible { display: block; }
 
         header { padding: 80px 20px; background: white; }
         header h1 { font-family: 'Dancing Script', cursive; font-size: 5rem; color: var(--color-rosa-calido); margin: 10px 0; }
 
-        section { padding: 80px 20px; border-bottom: 1px solid rgba(0,0,0,0.03); width: 100%; box-sizing: border-box; }
+        section { padding: 80px 20px; width: 100%; box-sizing: border-box; position: relative; }
         .bg-white { background-color: #ffffff; }
         .bg-dark { background-color: var(--negro-elegante); color: white; }
         
-        /* ICONOS Y TEXTOS */
-        .icon-main { font-size: 2.2rem; margin-bottom: 20px; color: var(--color-rosa-calido); }
-        h3 { font-family: 'Playfair Display', serif; letter-spacing: 4px; font-weight: 400; font-size: 1.3rem; margin-bottom: 15px; text-transform: uppercase; }
-        .sub-text { font-size: 0.85rem; letter-spacing: 1px; line-height: 1.7; max-width: 320px; margin: 0 auto; }
+        .icon-main { font-size: 2.5rem; margin-bottom: 25px; color: var(--color-rosa-calido); }
+        h3 { font-family: 'Playfair Display', serif; letter-spacing: 4px; font-weight: 400; font-size: 1.4rem; margin-bottom: 20px; text-transform: uppercase; }
 
-        /* BOTONES UNIFICADOS */
         .btn-style {
             display: inline-block; border: 1px solid var(--texto-suave);
-            color: var(--texto-suave); padding: 12px 35px;
+            color: var(--texto-suave); padding: 15px 40px;
             text-decoration: none; font-size: 0.75rem;
             letter-spacing: 2px; text-transform: uppercase; margin-top: 20px;
-            transition: 0.3s;
         }
         .bg-dark .btn-style { border-color: white; color: white; }
 
-        /* RELOJ COMPACTO */
         .reloj { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
         .reloj-item { font-weight: 600; font-size: 1.2rem; color: var(--color-rosa-calido); }
         .reloj-item span { display: block; font-size: 0.6rem; text-transform: uppercase; color: #888; font-weight: 400; }
 
-        /* SEPARADORES */
         .line { width: 60%; max-width: 400px; height: 1px; background: #333; margin: 20px auto; }
+
+        /* REVEAL ANIMATION */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         /* MODAL */
         .modal {
@@ -103,21 +118,7 @@
             left: 0; top: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8); justify-content: center; align-items: center;
         }
-        .modal-content { background: white; padding: 40px 20px; width: 80%; max-width: 350px; position: relative; }
-        
-        .ocultar { transform: translateY(-100%); }
-
-        /* ANIMACIÓN REVEAL */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .modal-content { background: white; padding: 40px 20px; width: 80%; max-width: 350px; position: relative; color: var(--texto-suave); }
     </style>
 </head>
 <body>
@@ -129,7 +130,6 @@
     </div>
 
     <div class="main-content" id="contenido">
-        
         <header>
             <p style="letter-spacing: 5px; font-size: 0.8rem; color: #999;">SÁBADO | 07 MARZO | 2026</p>
             <h1>Victoria</h1>
@@ -158,35 +158,35 @@
             <h3>¿Dónde?</h3>
             <p style="font-weight: 600; margin-bottom: 5px;">KEKÉ - SALÓN DE FIESTAS</p>
             <p class="sub-text">Diagonal Lechesse km 3.5 Camino 14 <br> Tafí Viejo, Tucumán</p>
-            <a href="https://www.google.com/maps?q=Keké+Salón+de+Fiestas+Tafí+Viejo" target="_blank" class="btn-style">Como llegar</a>
+            <a href="https://maps.app.goo.gl/tu_ubicacion" target="_blank" class="btn-style">Como llegar</a>
         </section>
 
         <section class="bg-white">
             <i class="fas fa-heart icon-main"></i>
             <h3>Regalos</h3>
-            <p class="sub-text">Nada es más importante que tu presencia, pero si deseas hacerme un presente puedes hacerlo en mi sobre virtual.</p>
-            <button class="btn-style" onclick="abrirModal()" style="background: transparent; cursor: pointer;">Ver sobre virtual</button>
+            <p style="font-size: 0.85rem; max-width: 320px; margin: 0 auto;">Nada es más importante que tu presencia, pero si deseas hacerme un presente puedes hacerlo en mi sobre virtual.</p>
+            <button class="btn-style" onclick="abrirModal()">Ver sobre virtual</button>
         </section>
 
         <section class="bg-dark">
             <i class="far fa-gem icon-main"></i>
             <h3>Dress Code</h3>
             <p style="font-weight: 600; letter-spacing: 2px; color: var(--color-rosa-calido);">ELEGANTE</p>
-            <p class="sub-text" style="margin-top: 10px; font-size: 0.75rem;">TE PEDIMOS EVITAR EL COLOR ROSA Y BLANCO</p>
+            <p style="margin-top: 10px; font-size: 0.75rem;">TE PEDIMOS EVITAR EL COLOR ROSA Y BLANCO</p>
         </section>
 
-        <section class="bg-white" style="border-top: 1px solid #f2f2f2;">
+        <section class="bg-white">
             <i class="fas fa-camera-retro icon-main"></i>
             <h3>Quiero ver tus fotos</h3>
-            <p class="sub-text">Compartí tus momentos usando mi hashtag oficial en Instagram:</p>
+            <p style="font-size: 0.85rem;">Compartí tus momentos usando mi hashtag:</p>
             <p style="font-weight: 600; letter-spacing: 3px; color: var(--color-rosa-calido); margin-top: 15px;">#VICTORIAFEST</p>
         </section>
 
         <section class="bg-dark">
             <i class="far fa-calendar-check icon-main"></i>
             <h3>Confirmación</h3>
-            <p class="sub-text">Para una mejor organización, por favor confirmá tu asistencia antes del 20 de febrero.</p>
-            <a href="https://wa.me/543813538780?text=%C2%A1Hola%20Victoria!%20Quer%C3%ADa%20confirmar%20mi%20asistencia%20a%20tu%20fiesta.%20Mi%20nombre%20es%3A%20" class="btn-ingresar" style="text-decoration:none; display: inline-block;">Confirmar por WhatsApp</a>
+            <p style="font-size: 0.85rem;">Por favor, confirmá tu asistencia antes del 20 de febrero.</p>
+            <a href="https://wa.me/543813538780?text=Hola+Victoria!+Confirmo+mi+asistencia" class="btn-ingresar" style="text-decoration:none;">Confirmar por WhatsApp</a>
         </section>
 
         <section class="bg-white">
@@ -197,7 +197,7 @@
 
         <section class="bg-dark" style="padding-bottom: 100px;">
             <i class="fas fa-heart" style="color: var(--color-rosa-calido); font-size: 2rem; margin-bottom: 15px;"></i>
-            <h2 style="letter-spacing: 8px; font-weight: 400; text-transform: uppercase; font-size: 1.5rem;">Te espero</h2>
+            <h2 style="letter-spacing: 8px; font-weight: 400; text-transform: uppercase;">Te espero</h2>
             <footer style="margin-top: 40px; font-size: 0.6rem; letter-spacing: 3px; color: #ccc;">VICTORIA • 2026</footer>
         </section>
     </div>
@@ -205,39 +205,38 @@
     <div id="modalRegalo" class="modal">
         <div class="modal-content">
             <span style="position:absolute; top:15px; right:20px; cursor:pointer; font-size:20px;" onclick="cerrarModal()">×</span>
-            <h3 style="color: var(--color-rosa-calido); font-size: 1.1rem;">Sobre Virtual</h3>
-            <p style="font-size: 0.65rem; color: #aaa; margin-top: 20px;">ALIAS:</p>
-            <p style="font-weight: 600; font-size: 0.9rem;">VICTORIA.15.MP</p>
-            <p style="font-size: 0.65rem; color: #aaa; margin-top: 15px;">CVU:</p>
-            <p style="font-weight: 600; font-size: 0.8rem;">00000031000XXXXXXXXX</p>
-            <p style="margin-top: 25px; border-top: 1px solid #eee; padding-top: 15px; font-size: 0.8rem; font-style: italic;">Victoria Gonzalez</p>
+            <h3>Sobre Virtual</h3>
+            <p>ALIAS: VICTORIA.15.MP</p>
+            <p>CVU: 00000031000XXXXXXXXX</p>
+            <p style="font-style: italic; font-size: 0.8rem;">Victoria Gonzalez</p>
         </div>
     </div>
 
     <script>
-        // 1. Función para ingresar (Corrección Scroll Único)
         function entrar() {
-            document.getElementById('pantalla-ingreso').classList.add('ocultar');
+            // 1. Ocultar pantalla de ingreso
+            const ingreso = document.getElementById('pantalla-ingreso');
+            ingreso.classList.add('ocultar');
+            
+            // 2. Mostrar contenido
             const contenido = document.getElementById('contenido');
             contenido.classList.add('visible');
-            
-            // Habilitamos scroll en el body tras el ingreso
-            document.body.classList.add('habilitar-scroll');
 
+            // 3. HABILITAR SCROLL ÚNICO
+            document.body.classList.add('habilitar-scroll');
+            document.documentElement.style.overflow = "auto";
+
+            // 4. Refrescar animaciones
             setTimeout(() => {
                 window.scrollTo(0, 0);
                 refreshReveal(); 
             }, 100);
         }
 
-        // 2. Modales
         function abrirModal() { document.getElementById('modalRegalo').style.display = "flex"; }
         function cerrarModal() { document.getElementById('modalRegalo').style.display = "none"; }
-        window.onclick = function(event) { 
-            if (event.target == document.getElementById('modalRegalo')) { cerrarModal(); } 
-        }
 
-        // 3. Reloj Cuenta Regresiva
+        // Reloj
         const target = new Date("March 7, 2026 21:00:00").getTime();
         setInterval(() => {
             const now = new Date().getTime();
@@ -249,19 +248,12 @@
             }
         }, 1000);
 
-        // 4. Lógica Reveal Optimizada
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
-
+        // Scroll Reveal
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
+                if (entry.isIntersecting) { entry.target.classList.add('active'); }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
         function refreshReveal() {
             document.querySelectorAll('section').forEach((section) => {
@@ -269,7 +261,6 @@
                 observer.observe(section);
             });
         }
-
         window.onload = refreshReveal;
     </script>
 </body>
