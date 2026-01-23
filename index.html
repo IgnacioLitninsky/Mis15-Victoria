@@ -82,7 +82,23 @@
         .modal-content { background: white; padding: 40px 20px; width: 80%; max-width: 350px; position: relative; }
         
         .ocultar { transform: translateY(-100%); }
+
+        /* Estado inicial: invisible y un poco más abajo */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        /* Estado final: visible y en su posición original */
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
     </style>
+
+    
 </head>
 <body>
 
@@ -197,10 +213,27 @@
             document.getElementById("h").innerHTML = Math.floor((d % (1000*60*60*24)) / (1000*60*60)) + "<span>Hs</span>";
             document.getElementById("m").innerHTML = Math.floor((d % (1000*60*60)) / (1000*60)) + "<span>Min</span>";
         }, 1000);
+
+        // Creamos el observador para detectar el scroll
+        const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+        }
+         });
+        }, { threshold: 0.1 });
+
+        // Seleccionamos todas las secciones y las preparamos para la animación
+        document.querySelectorAll('section').forEach((section) => {
+        section.classList.add('reveal');
+        observer.observe(section);
+        });
+        
     </script>
 </body>
 
 </html>
+
 
 
 
