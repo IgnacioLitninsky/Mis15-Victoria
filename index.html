@@ -249,9 +249,10 @@
 
     <div id="pantalla-ingreso">
 
-        <h2 style="font-family: 'Playfair Display', serif; letter-spacing: 6px; font-style: italic; color: var(--color-rosa-calido);">Victoria</h2>
 
-        <p style="font-size: 0.7rem; letter-spacing: 3px; color: #999;">MIS QUINCE AÑOS</p>
+        <h2 style="font-family: 'Dancing Script', cursive; font-size: 4.5rem; color: var(--color-rosa-calido); margin-bottom: 5px;">Victoria</h2>
+        
+        <p style="font-size: 0.75rem; letter-spacing: 5px; color: #999; text-transform: uppercase; margin-top: 0;">MIS QUINCE AÑOS</p>
 
         <button class="btn-ingresar" onclick="entrar()">Ingresar</button>
 
@@ -270,13 +271,15 @@
             <h1>Victoria</h1>
 
             <div class="reloj" id="timer">
-
+                
                 <div class="reloj-item" id="d">00<span>Días</span></div>
-
+                
                 <div class="reloj-item" id="h">00<span>Hs</span></div>
-
+                
                 <div class="reloj-item" id="m">00<span>Min</span></div>
-
+                
+                <div class="reloj-item" id="s" style="color: var(--negro-elegante); opacity: 0.7;">00<span>Seg</span></div>
+                
             </div>
 
         </header>
@@ -389,7 +392,7 @@
 
             <div class="line"></div>
 
-            <p style="letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem;">Tu presencia en ésta noche nunca la olvidaré</p>
+            <p style="letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem;">TU PRESENCIA ESTA NOCHE QUEDARÁ GRABADA POR SIEMPRE EN MI CORAZÓN</p>
 
             <div class="line"></div>
 
@@ -502,25 +505,28 @@ function actualizarIcono(estaReproduciendo) {
 
         // 3. Reloj Cuenta Regresiva
 
-        const target = new Date("March 7, 2026 21:00:00").getTime();
-
-        setInterval(() => {
-
-            const now = new Date().getTime();
-
-            const d = target - now;
-
-            if (d > 0) {
-
-                document.getElementById("d").innerHTML = Math.floor(d / (1000*60*60*24)) + "<span>Días</span>";
-
-                document.getElementById("h").innerHTML = Math.floor((d % (1000*60*60*24)) / (1000*60*60)) + "<span>Hs</span>";
-
-                document.getElementById("m").innerHTML = Math.floor((d % (1000*60*60)) / (1000*60)) + "<span>Min</span>";
-
-            }
-
-        }, 1000);
+        // 3. Reloj Cuenta Regresiva con Segundos
+        const target = new Date("March 7, 2026 22:00:00").getTime();
+        
+       setInterval(() => {
+    
+           const now = new Date().getTime();
+    
+           const d = target - now;
+  
+           if (d > 0) {
+                
+               document.getElementById("d").innerHTML = Math.floor(d / (1000*60*60*24)) + "<span>Días</span>";
+                
+               document.getElementById("h").innerHTML = Math.floor((d % (1000*60*60*24)) / (1000*60*60)) + "<span>Hs</span>";
+                
+               document.getElementById("m").innerHTML = Math.floor((d % (1000*60*60)) / (1000*60)) + "<span>Min</span>";
+                
+               document.getElementById("s").innerHTML = Math.floor((d % (1000*60)) / 1000) + "<span>Seg</span>";
+          
+           }
+        
+       }, 1000);
 
 
 
@@ -581,6 +587,7 @@ function actualizarIcono(estaReproduciendo) {
 
 
 </html>
+
 
 
 
