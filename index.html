@@ -70,6 +70,8 @@
 
         
 
+        
+
         /* 1. PANTALLA DE INGRESO */
 
         #pantalla-ingreso {
@@ -235,6 +237,25 @@
 <body>
 
 
+        <audio id="musicaFondo" loop>
+            <source src="musica.mp3" type="audio/mpeg">
+        </audio>
+    
+        <div id="btn-musica" onclick="controlarMusica()" style="position: fixed; bottom: 20px; right: 20px; z-index: 10001; background: white; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2); cursor: pointer; border: 1px solid var(--color-rosa-calido);">
+            <i id="icono-musica" class="fas fa-play" style="color: var(--color-rosa-calido);"></i>
+        </div>
+
+
+    
+        <audio id="musicaFondo" loop>
+            <source src="musica.mp3" type="audio/mpeg">
+        </audio>
+
+        <div id="btn-musica" onclick="controlarMusica()" style="position: fixed; bottom: 20px; right: 20px; z-index: 10001; background: white; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2); cursor: pointer; border: 1px solid var(--color-rosa-calido);">
+            <i id="icono-musica" class="fas fa-play" style="color: var(--color-rosa-calido); font-size: 1.1rem;"></i>
+        </div>
+
+    
 
     <div id="pantalla-ingreso">
 
@@ -429,25 +450,36 @@
         // 1. Función para ingresar (Corrección de Scroll)
 
         function entrar() {
-
             document.getElementById('pantalla-ingreso').classList.add('ocultar');
-
             const contenido = document.getElementById('contenido');
-
             contenido.classList.add('visible');
 
+            // --- INICIO DE MÚSICA AL INGRESAR ---
+            const cancion = document.getElementById('musicaFondo');
+            cancion.play().then(() => {
+                actualizarIcono(true);
+            }).catch(error => console.log("Reproducción automática bloqueada"));
 
-
-        // Forzamos al navegador a reconocer la posición inicial
-
-        setTimeout(() => {
-
-            window.scrollTo(0, 0);
-
-            refreshReveal(); 
-
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+                refreshReveal(); 
             }, 100);
+        }
 
+        function controlarMusica() {
+            const cancion = document.getElementById('musicaFondo');
+            if (cancion.paused) {
+                cancion.play();
+                actualizarIcono(true);
+            } else {
+                cancion.pause();
+                actualizarIcono(false);
+            }
+        }
+
+        function actualizarIcono(reproduciendo) {
+            const icono = document.getElementById('icono-musica');
+            icono.className = reproduciendo ? "fas fa-pause" : "fas fa-play";
         }
 
 
@@ -547,6 +579,7 @@
 
 
 </html>
+
 
 
 
