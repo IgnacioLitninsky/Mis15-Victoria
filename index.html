@@ -237,23 +237,13 @@
 <body>
 
 
-        <audio id="musicaFondo" loop>
-            <source src="musica.mp3" type="audio/mpeg">
-        </audio>
-    
-        <div id="btn-musica" onclick="controlarMusica()" style="position: fixed; bottom: 20px; right: 20px; z-index: 10001; background: white; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2); cursor: pointer; border: 1px solid var(--color-rosa-calido);">
-            <i id="icono-musica" class="fas fa-play" style="color: var(--color-rosa-calido);"></i>
-        </div>
-
-
-    
-        <audio id="musicaFondo" loop>
-            <source src="musica.mp3" type="audio/mpeg">
-        </audio>
-
-        <div id="btn-musica" onclick="controlarMusica()" style="position: fixed; bottom: 20px; right: 20px; z-index: 10001; background: white; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2); cursor: pointer; border: 1px solid var(--color-rosa-calido);">
+        <div id="btn-musica" onclick="controlarMusica()" style="position: fixed; bottom: 20px; right: 20px; z-index: 10001; background: white; width: 45px; height: 45px; border-radius: 50%; display: none; justify-content: center; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2); cursor: pointer; border: 1px solid var(--color-rosa-calido);">
             <i id="icono-musica" class="fas fa-play" style="color: var(--color-rosa-calido); font-size: 1.1rem;"></i>
         </div>
+
+        <audio id="musicaFondo" loop>
+            <source src="musica.mp3" type="audio/mpeg">
+        </audio>
 
     
 
@@ -450,37 +440,49 @@
         // 1. Función para ingresar (Corrección de Scroll)
 
         function entrar() {
-            document.getElementById('pantalla-ingreso').classList.add('ocultar');
-            const contenido = document.getElementById('contenido');
-            contenido.classList.add('visible');
+    // 1. Ocultamos el ingreso y mostramos el contenido
+    document.getElementById('pantalla-ingreso').classList.add('ocultar');
+    document.getElementById('contenido').classList.add('visible');
 
-            // --- INICIO DE MÚSICA AL INGRESAR ---
-            const cancion = document.getElementById('musicaFondo');
-            cancion.play().then(() => {
-                actualizarIcono(true);
-            }).catch(error => console.log("Reproducción automática bloqueada"));
+    // 2. HACEMOS APARECER EL BOTÓN DE MÚSICA RECIÉN ACÁ
+    const botonMusica = document.getElementById('btn-musica');
+    botonMusica.style.display = 'flex';
 
-            setTimeout(() => {
-                window.scrollTo(0, 0);
-                refreshReveal(); 
-            }, 100);
-        }
+    // 3. REPRODUCIMOS Y CAMBIAMOS EL ICONO A PAUSA (porque ya está sonando)
+    const cancion = document.getElementById('musicaFondo');
+    cancion.play().then(() => {
+        actualizarIcono(true); // Cambia a icono de pausa
+    }).catch(error => console.log("Bloqueo de audio"));
 
-        function controlarMusica() {
-            const cancion = document.getElementById('musicaFondo');
-            if (cancion.paused) {
-                cancion.play();
-                actualizarIcono(true);
-            } else {
-                cancion.pause();
-                actualizarIcono(false);
-            }
-        }
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+        refreshReveal(); 
+    }, 100);
+}
 
-        function actualizarIcono(reproduciendo) {
-            const icono = document.getElementById('icono-musica');
-            icono.className = reproduciendo ? "fas fa-pause" : "fas fa-play";
-        }
+// Función para Play/Pause
+function controlarMusica() {
+    const cancion = document.getElementById('musicaFondo');
+    if (cancion.paused) {
+        cancion.play();
+        actualizarIcono(true);
+    } else {
+        cancion.pause();
+        actualizarIcono(false);
+    }
+}
+
+// Función que cambia el dibujo del icono
+function actualizarIcono(estaReproduciendo) {
+    const icono = document.getElementById('icono-musica');
+    if (estaReproduciendo) {
+        // Si suena, mostramos las dos rayitas de PAUSA
+        icono.className = "fas fa-pause";
+    } else {
+        // Si está quieto, mostramos el triangulito de PLAY
+        icono.className = "fas fa-play";
+    }
+}
 
 
 
@@ -579,6 +581,7 @@
 
 
 </html>
+
 
 
 
