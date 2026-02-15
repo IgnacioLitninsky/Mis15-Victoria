@@ -46,32 +46,21 @@
 
 
 
-       body {
-            margin: 0; padding: 0;
-            /* TODO EN CURSIVA POR DEFECTO */
-            font-family: 'Dancing Script', cursive !important; 
+        body {
+
+            margin: 0; 
+
+            padding: 0;
+
+            font-family: 'Montserrat', sans-serif;
+
             background-color: var(--color-nude);
+
             color: var(--texto-suave);
+
             text-align: center;
-            font-size: 1.4rem; /* La cursiva suele leerse mejor un poco más grande */
-        }
-
-        /* CLASE ESPECIAL PARA LOS DATOS ENTRE | | */
-        .dato-acotado {
-            font-family: 'Montserrat', sans-serif !important;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.8rem;
-            font-weight: 400;
-            display: inline-block;
-            margin: 5px 0;
-        }
-
-        h1, h2, h3 {
-            font-family: 'Dancing Script', cursive !important;
-            color: var(--color-rosa-calido);
-            font-weight: 600;
-        }
+            
+         }
 
         
 
@@ -271,8 +260,8 @@
 
         <header> 
 
-            <p class="dato-acotado">SÁBADO | 07 MARZO | 2026</p>
-            
+            <p style="letter-spacing: 5px; font-size: 0.8rem; color: #999;">SÁBADO | 07 MARZO | 2026</p>
+
             <h1>Victoria</h1>
 
             <div class="reloj" id="timer">
@@ -304,16 +293,14 @@
 
 
         <section class="bg-white" style="border-top: 1px solid rgba(255,255,255,0.1);">
- 
-                <i class="far fa-calendar-alt icon-main"></i>
-            
-                <h3>¿Cuándo?</h3>
-                
-                <p class="dato-acotado">| 07 DE MARZO 2026 |</p>
-            
-                <br>
-            
-                <p class="dato-acotado">| 22:00 HS |</p>
+
+            <i class="far fa-calendar-alt icon-main"></i>
+
+            <h3>¿CUÁNDO?</h3>
+
+            <p style="font-weight: 600; letter-spacing: 2px;">07 DE MARZO 2026</p>
+
+            <p style="letter-spacing: 1px; margin-top: 5px;">| 22:00 HS |</p>
 
         </section>
 
@@ -607,8 +594,6 @@ function actualizarIcono(estaReproduciendo) {
 
 
 </html>
-
-
 
 
 
