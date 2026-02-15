@@ -46,21 +46,32 @@
 
 
 
-        body {
-
-            margin: 0; 
-
-            padding: 0;
-
-            font-family: 'Montserrat', sans-serif;
-
+       body {
+            margin: 0; padding: 0;
+            /* TODO EN CURSIVA POR DEFECTO */
+            font-family: 'Dancing Script', cursive !important; 
             background-color: var(--color-nude);
-
             color: var(--texto-suave);
-
             text-align: center;
-            
-         }
+            font-size: 1.4rem; /* La cursiva suele leerse mejor un poco más grande */
+        }
+
+        /* CLASE ESPECIAL PARA LOS DATOS ENTRE | | */
+        .dato-acotado {
+            font-family: 'Montserrat', sans-serif !important;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.8rem;
+            font-weight: 400;
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Dancing Script', cursive !important;
+            color: var(--color-rosa-calido);
+            font-weight: 600;
+        }
 
         
 
@@ -260,8 +271,8 @@
 
         <header> 
 
-            <p style="letter-spacing: 5px; font-size: 0.8rem; color: #999;">SÁBADO | 07 MARZO | 2026</p>
-
+            <p class="dato-acotado">SÁBADO | 07 MARZO | 2026</p>
+            
             <h1>Victoria</h1>
 
             <div class="reloj" id="timer">
@@ -293,14 +304,16 @@
 
 
         <section class="bg-white" style="border-top: 1px solid rgba(255,255,255,0.1);">
-
-            <i class="far fa-calendar-alt icon-main"></i>
-
-            <h3>¿CUÁNDO?</h3>
-
-            <p style="font-weight: 600; letter-spacing: 2px;">07 DE MARZO 2026</p>
-
-            <p style="letter-spacing: 1px; margin-top: 5px;">| 22:00 HS |</p>
+ 
+                <i class="far fa-calendar-alt icon-main"></i>
+            
+                <h3>¿Cuándo?</h3>
+                
+                <p class="dato-acotado">| 07 DE MARZO 2026 |</p>
+            
+                <br>
+            
+                <p class="dato-acotado">| 22:00 HS |</p>
 
         </section>
 
@@ -346,7 +359,7 @@
 
             <p style="font-weight: 600; letter-spacing: 2px; color: var(--color-rosa-calido);">ELEGANTE</p>
 
-            <p class="sub-text" style="margin-top: 10px; font-size: 0.75rem;">TE PEDIMOS EVITAR EL COLOR BLANCO Y FUCSIA</p>
+            <p class="sub-text" style="margin-top: 10px; font-size: 0.75rem;">TE PEDIMOS EVITAR EL COLOR BLANCO Y VERDE</p>
 
         </section>
 
@@ -372,7 +385,7 @@
 
             <h3>Confirmación</h3>
 
-            <p class="sub-text">Para una mejor organización, por favor confirmá tu asistencia antes del 20 de febrero.</p>
+            <p class="sub-text">Para una mejor organización, por favor confirmá tu asistencia antes del 1 de Marzo.</p>
 
             <a href="https://wa.me/543813538780?text=%C2%A1Hola%20Victoria!%20Quer%C3%ADa%20confirmar%20mi%20asistencia%20a%20tu%20fiesta.%20Mi%20nombre%20es%3A%20" class="btn-style" style="text-decoration:none; display: inline-block;">Confirmar por WhatsApp</a>
 
@@ -594,6 +607,7 @@ function actualizarIcono(estaReproduciendo) {
 
 
 </html>
+
 
 
 
