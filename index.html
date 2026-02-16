@@ -4,6 +4,11 @@
 
 <head>
 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -280,6 +285,14 @@
 
 
 
+        
+<section style="padding: 0; line-height: 0;">
+    <img src="foto_inicio.jpg" alt="Victoria" style="width: 100%; height: auto; display: block; filter: brightness(0.9);">
+</section>
+
+        
+
+
         <section class="bg-dark">
 
             <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; line-height: 2; margin: 0;">
@@ -392,6 +405,13 @@
 
 
 
+
+<section style="padding: 0; line-height: 0;">
+<img src="foto_final.jpg" alt="Victoria 15" style="width: 100%; height: auto; display: block;">
+</section>
+
+
+        
         <section class="bg-dark" style="padding-bottom: 100px;">
 
             <i class="fas fa-heart" style="color: var(--color-rosa-calido); font-size: 2rem; margin-bottom: 15px;"></i>
@@ -582,7 +602,16 @@ function actualizarIcono(estaReproduciendo) {
 
        });
 
-       
+
+
+const swiper = new Swiper(".mySwiper", {
+effect: "coverflow",
+grabCursor: true,
+centeredSlides: true,
+slidesPerView: "auto",
+autoplay: { delay: 2500, disableOnInteraction: false },
+coverflowEffect: { rotate: 50, stretch: 0, depth: 100, modifier: 1, slideShadows: true },
+});
        
 
     </script>
@@ -594,6 +623,7 @@ function actualizarIcono(estaReproduciendo) {
 
 
 </html>
+
 
 
 
