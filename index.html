@@ -125,7 +125,24 @@
 
 
 
-        section { padding: 60px 20px; border-bottom: 1px solid rgba(0,0,0,0.03); }
+
+
+section { 
+    padding: 60px 20px; 
+    border-bottom: 1px solid rgba(0,0,0,0.03); /* Quitamos el borde para que se junten */
+    margin: 0; 
+    width: 100%;
+    box-sizing: border-box; /* Fundamental para que el padding no rompa el ancho */
+}
+
+/* Nueva clase para secciones de fotos sin espacio */
+.foto-full {
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 0; /* Elimina el pequeño espacio debajo de las imágenes */
+}
+
+        
 
         .bg-white { background-color: #ffffff; }
 
@@ -286,7 +303,8 @@
 
 
         
-<section style="padding: 0; line-height: 0;">
+        
+<section class="foto-full">
     <img src="foto_inicio.jpg" alt="Victoria" style="width: 100%; height: auto; display: block; filter: brightness(0.9);">
 </section>
 
@@ -306,7 +324,7 @@
 
 
 
-<section class="bg-white" style="padding: 40px 0;">
+<section class="bg-white" class="foto-full">
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
             <div class="swiper-slide"><img src="foto1.jpg" style="width:100%; border-radius:10px;"></div>
@@ -366,7 +384,7 @@
 
 
         
-<section class="bg-white" style="padding: 40px 0;">
+<section class="bg-white" class="foto-full">
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
             <div class="swiper-slide"><img src="foto6.jpg" style="width:100%; border-radius:10px;"></div>
@@ -436,7 +454,7 @@
 
 
 
-<section style="padding: 0; line-height: 0;">
+<section class="foto-full">
 <img src="foto_final.jpg" alt="Victoria 15" style="width: 100%; height: auto; display: block;">
 </section>
 
@@ -653,6 +671,7 @@ coverflowEffect: { rotate: 50, stretch: 0, depth: 100, modifier: 1, slideShadows
 
 
 </html>
+
 
 
 
